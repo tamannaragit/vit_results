@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIT Semester Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<main class="page-shell">
+
+    <header class="hero">
+        <p class="eyebrow">VIT • Academic Record</p>
+        <h1>Semester Result</h1>
+        <p>
+            Enter marks for exactly four subjects.
+            Calculations are securely completed by the server.
+        </p>
+    </header>
+
+    <form class="result-form"
+          th:action="@{/results}"
+          th:object="${semesterResultForm}"
+          method="post">
+
+        <div class="form-error summary-error"
+             th:if="${#fields.hasGlobalErrors()}"
+             th:errors="*{global}">
+        </div>
+
+        <section class="panel">
+
+            <h2>Student details</h2>
+
+            <div class="details-grid">
+
+                <label>
+                    Student Name
+
+                    <input th:field="*{studentName}"
+                           type="text"
+                           maxlength="100"
+                           placeholder="Enter full name"
+                           required>
+
+                    <small th:errors="*{studentName}"></small>
+                </label>
+
+                <label>
+                    PRN / Roll Number
+
+                    <input th:field="*{prn}"
+                           type="text"
+                           inputmode="numeric"
+                           pattern="[0-9]{8}"
+                           minlength="8"
+                           maxlength="8"
+                           placeholder="Enter 8-digit PRN"
+                           autocomplete="off"
+                           required>
+
+                    <small>Enter exactly 8 digits.</small>
+
+                    <small th:errors="*{prn}"></small>
+                </label>
+
+                <label>
+                    Semester
+
+                    <input th:field="*{semester}"
+                           type="number"
+                           min="1"
+                           max="8"
+                           step="1"
+                           inputmode="numeric"
+                           placeholder="Enter 1–8"
+                           required>
+
+                    <small>Enter one number from 1 to 8.</small>
+
+                    <small th:errors="*{semester}"></small>
+                </label>
+
+            </div>
+
+        </section>
+
+        <section class="panel">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Subject marks</h2>
+                    <p>MSE and ESE are entered on a 0–100 scale.</p>
+                </div>
+
+                <span class="badge">
+                    4 subjects required
+                </span>
+
+            </div>
+
+            <small class="form-error"
+                   th:errors="*{subjects}">
+            </small>
+
+            <div class="subject-grid">
+
+                <article class="subject-card"
+                         th:each="subject, stat : *{subjects}">
+
+                    <h3>
+                        Subject
+                        <span th:text="${stat.count}">1</span>
+                    </h3>
+
+                    <label>
+                        Subject Name
+
+                        <input th:field="*{subjects[__${stat.index}__].subjectName}"
+                               type="text"
+                               maxlength="100"
+                               placeholder="Subject name"
+                               required>
+
+                        <small th:errors="*{subjects[__${stat.index}__].subjectName}">
+                        </small>
+                    </label>
+
+                    <div class="marks-grid">
+
+                        <label>
+                            MSE Marks
+
+                            <input th:field="*{subjects[__${stat.index}__].mseMarks}"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   inputmode="decimal"
+                                   placeholder="0–100"
+                                   required>
+
+                            <small>
+                                Enter 0–100 (up to two decimals).
+                            </small>
+
+                            <small th:errors="*{subjects[__${stat.index}__].mseMarks}">
+                            </small>
+                        </label>
+
+                        <label>
+                            ESE Marks
+
+                            <input th:field="*{subjects[__${stat.index}__].eseMarks}"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   step="0.01"
+                                   inputmode="decimal"
+                                   placeholder="0–100"
+                                   required>
+
+                            <small>
+                                Enter 0–100 (up to two decimals).
+                            </small>
+
+                            <small th:errors="*{subjects[__${stat.index}__].eseMarks}">
+                            </small>
+                        </label>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <button class="primary-button" type="submit">
+            Calculate &amp; Prepare Result
+        </button>
+
+    </form>
+
+</main>
+
+</body>
+</html>

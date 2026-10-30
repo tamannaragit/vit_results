@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Result Prepared | VIT</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><main class="page-shell">
+    <header class="hero compact"><p class="eyebrow">VIT • Semester Result</p><h1>Result Prepared</h1><p>Your result has been calculated and saved successfully.</p></header>
+    <section class="panel student-summary"><div><span>Student Name</span><strong th:text="${result.student.studentName}">Name</strong></div><div><span>PRN / Roll Number</span><strong th:text="${result.student.prn}">PRN</strong></div><div><span>Semester</span><strong th:text="${result.semester}">Semester</strong></div></section>
+    <section class="panel result-table-wrap"><h2>Subject-wise result</h2><table><thead><tr><th>Subject</th><th>MSE</th><th>ESE</th><th>Weighted Final</th></tr></thead><tbody><tr th:each="subject : ${result.subjects}"><td th:text="${subject.subjectName}">Subject</td><td th:text="${subject.mseMarks}">0</td><td th:text="${subject.eseMarks}">0</td><td class="final" th:text="${subject.finalMarks}">0</td></tr></tbody></table></section>
+    <section class="summary-cards"><article><span>Total Final Marks</span><strong th:text="${result.totalFinalMarks}">0</strong><small>Across four subjects</small></article><article class="highlight"><span>Overall Percentage</span><strong><span th:text="${result.overallAverage}">0</span>%</strong><small>Average weighted mark</small></article></section>
+    <a class="secondary-button" th:href="@{/}">Prepare Another Result</a>
+</main></body></html>
